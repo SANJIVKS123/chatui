@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Chat UI</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #ece5dd;
+}
+
+/* Layout */
+.chat-app {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 30%;
+    background: #ffffff;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar-header {
+    padding: 15px;
+    background: #075e54;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.chat-list {
+    list-style: none;
+}
+
+.chat-list li {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.chat-list li:hover,
+.chat-list li.active {
+    background: #f0f2f5;
+}
+
+.chat-name {
+    font-weight: bold;
+}
+
+/* Chat Window */
+.chat-window {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    background: #efeae2;
+}
+
+.chat-header {
+    background: #075e54;
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+}
+
+/* Messages */
+.messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+}
+
+.message {
+    max-width: 60%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.sent {
+    background: #dcf8c6;
+    margin-left: auto;
+}
+
+.received {
+    background: white;
+    margin-right: auto;
+}
+
+.time {
+    display: block;
+    font-size: 10px;
+    text-align: right;
+    color: gray;
+}
+
+/* Input */
+.chat-input {
+    display: flex;
+    padding: 10px;
+    background: white;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.chat-input button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: #075e54;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+    .chat-window {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-app">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">Chats</div>
+        <ul class="chat-list">
+            <li class="active">
+                <div class="chat-name">Alex</div>
+            </li>
+            <li>
+                <div class="chat-name">Priya</div>
+            </li>
+            <li>
+                <div class="chat-name">John</div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Chat Window -->
+    <div class="chat-window">
+        <div class="chat-header">Alex</div>
+
+        <div class="messages" id="messages">
+            <div class="message received">
+                Hi! 👋
+                <span class="time">08:30</span>
+            </div>
+            <div class="message sent">
+                Hello! How are you?
+                <span class="time">08:31</span>
+            </div>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function sendMessage() {
+    const input = document.getElementById("messageInput");
+    const messageText = input.value.trim();
+
+    if (messageText === "") return;
+
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", "sent");
+
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    messageDiv.innerHTML = `
+        ${messageText}
+        <span class="time">${time}</span>
+    `;
+
+    document.getElementById("messages").appendChild(messageDiv);
+    input.value = "";
+    document.getElementById("messages").scrollTop = messages.scrollHeight;
+}
+
+document.getElementById("messageInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+});
+</script>
+
+</body>
+</html>
